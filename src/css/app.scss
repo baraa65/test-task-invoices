@@ -1,1 +1,21 @@
 // app global css in SCSS form
+@font-face {
+	font-family: 'Tajawal';
+	src: url('src/assets/fonts/Tajawal-Regular.ttf') format('truetype');
+}
+
+body {
+	font-family: Tajawal;
+	background-color: #f9f9f9;
+}
+
+.title {
+	font-size: 24px;
+	line-height: 24px;
+	font-weight: bold;
+}
+
+.q-table__bottom {
+	min-height: 0 !important;
+  padding: 0;
+}
