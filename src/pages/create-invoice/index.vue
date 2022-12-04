@@ -29,13 +29,7 @@
 						<div class="col">
 							<div>التاريخ</div>
 							<div>
-								<q-input
-									dense
-									outlined
-									v-model="invoiceForm.billDate"
-									mask="date"
-									:rules="['date']"
-								>
+								<q-input dense outlined v-model="billDateModel">
 									<template v-slot:append>
 										<q-icon color="primary" name="event" class="cursor-pointer">
 											<q-popup-proxy
@@ -43,7 +37,7 @@
 												transition-show="scale"
 												transition-hide="scale"
 											>
-												<q-date v-model="invoiceForm.billDate">
+												<q-date v-model="billDateModel" mask="DD-MM-YYYY">
 													<div class="row items-center justify-end">
 														<q-btn v-close-popup label="Close" color="primary" flat />
 													</div>
@@ -137,9 +131,8 @@
 									<q-input
 										dense
 										outlined
-										v-model="form.validityDate"
-										mask="date"
-										:rules="['date']"
+										v-model="validityDateModel"
+										:rules="['']"
 										style="min-width: 120px"
 									>
 										<template v-slot:append>
@@ -149,7 +142,7 @@
 													transition-show="scale"
 													transition-hide="scale"
 												>
-													<q-date v-model="form.validityDate">
+													<q-date v-model="validityDateModel" mask="DD-MM-YYYY">
 														<div class="row items-center justify-end">
 															<q-btn
 																v-close-popup
@@ -164,7 +157,7 @@
 										</template>
 									</q-input>
 								</div>
-								<div v-else>{{ row.validityDate }}</div>
+								<div v-else>{{ formatDate(row.validityDate) }}</div>
 							</q-td>
 						</template>
 						<template v-slot:body-cell-notes="{ row }">
@@ -212,7 +205,7 @@ const rowForm = () => ({
 	item: null,
 	unit: null,
 	qty: 1,
-	validityDate: date.formatDate(new Date(), 'YYYY/MM/DD'),
+	validityDate: new Date().toISOString(),
 	notes: '',
 })
 
@@ -252,6 +245,22 @@ export default defineComponent({
 		isEdit() {
 			return !!this.billNumber
 		},
+		validityDateModel: {
+			get() {
+				return date.formatDate(this.form.validityDate, 'DD-MM-YYYY')
+			},
+			set(val) {
+				this.form.validityDate = date.extractDate(val, 'DD-MM-YYYY').toISOString()
+			},
+		},
+		billDateModel: {
+			get() {
+				return date.formatDate(this.form.validityDate, 'DD-MM-YYYY')
+			},
+			set(val) {
+				this.form.validityDate = date.extractDate(val, 'DD-MM-YYYY').toISOString()
+			},
+		},
 		columns() {
 			return [
 				{ name: 'delete', label: 'حذف', align: 'center' },
@@ -259,7 +268,7 @@ export default defineComponent({
 				{ name: 'item', label: 'اسم الصنف', field: 'item' },
 				{ name: 'unit', label: 'الوحدة', field: 'unit' },
 				{ name: 'qty', label: 'الكمية', field: 'qty' },
-				{ name: 'validity-date', label: 'تاريخ الصلاحية', field: 'validityDate' },
+				{ name: 'validity-date', label: 'تاريخ الصلاحية' },
 				{ name: 'notes', label: 'الملاحظات', field: 'notes' },
 			]
 		},
@@ -289,6 +298,9 @@ export default defineComponent({
 				await this.addInvoice(this.invoiceForm)
 			}
 			this.$router.push('/')
+		},
+		formatDate(d) {
+			return date.formatDate(d, 'DD-MM-YYYY')
 		},
 	},
 })

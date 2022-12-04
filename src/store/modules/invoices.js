@@ -21,7 +21,7 @@ export default {
 			{
 				supplier: 'المورد',
 				billNumber: 'SR 000001',
-				billDate: '01-01-2022',
+				billDate: new Date().toISOString(),
 				notes: 'asxasxa sax x',
 				items: [
 					{
@@ -29,7 +29,7 @@ export default {
 						item: { id: 1, name: 'item' },
 						unit: { id: 1, name: 'unit' },
 						qty: 100,
-						validityDate: '01-01-2022',
+						validityDate: new Date().toISOString(),
 						notes: 'notes',
 					},
 					{
@@ -37,7 +37,7 @@ export default {
 						item: { id: 1, name: 'item' },
 						unit: { id: 1, name: 'unit' },
 						qty: 100,
-						validityDate: '01-01-2022',
+						validityDate: new Date().toISOString(),
 						notes: 'axsxaaxas',
 					},
 				],
@@ -49,7 +49,7 @@ export default {
 				item: { id: 1, name: 'item' },
 				unit: { id: 1, name: 'unit' },
 				qty: 100,
-				validityDate: '01-01-2022',
+				validityDate: new Date().toISOString(),
 				notes: 'notes',
 			},
 			{
@@ -57,7 +57,7 @@ export default {
 				item: { id: 1, name: 'item' },
 				unit: { id: 1, name: 'unit' },
 				qty: 100,
-				validityDate: '01-01-2022',
+				validityDate: new Date().toISOString(),
 				notes: 'axsxaaxas',
 			},
 		],

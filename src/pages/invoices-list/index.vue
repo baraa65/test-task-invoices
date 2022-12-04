@@ -53,6 +53,7 @@ import FilterIcon from 'src/assets/icons/filter.png'
 import SvgIcon from 'src/components/svg-icon.vue'
 import SearchForm from 'src/components/search-form.vue'
 import { mapActions, mapGetters } from 'vuex'
+import { date } from 'quasar'
 
 export default defineComponent({
 	name: 'invoices-list',
@@ -68,7 +69,11 @@ export default defineComponent({
 			return [
 				{ name: 'supplier', label: 'المورد', field: 'supplier' },
 				{ name: 'billNumber', label: 'رقم الفاتورة', field: 'billNumber' },
-				{ name: 'billDate', label: 'تاريخ الفاتورة', field: 'billDate' },
+				{
+					name: 'billDate',
+					label: 'تاريخ الفاتورة',
+					field: (row) => date.formatDate(row.billDate, 'DD-MM-YYYY'),
+				},
 				{ name: 'settings', label: 'الاعدادات', align: 'center' },
 			]
 		},
