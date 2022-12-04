@@ -1,6 +1,14 @@
 <template>
 	<div>
-		<sub-header title="أذون الإضافة" />
+		<sub-header :title="isEdit ? 'تعديل الاذن' : 'إضافة جديد'">
+			<div>
+				<q-btn
+					:label="isEdit ? 'تعديل' : 'إضافة'"
+					color="primary"
+					@click="handleAddInvoice()"
+				/>
+			</div>
+		</sub-header>
 
 		<div class="q-pa-xl">
 			<q-card flat>
@@ -9,25 +17,53 @@
 						<div class="col">
 							<div>رقم الاذن التسلسلي</div>
 							<div>
-								<q-input class="full-width" dense outlined readonly />
+								<q-input
+									v-model="invoiceForm.billNumber"
+									class="full-width"
+									dense
+									outlined
+									readonly
+								/>
 							</div>
 						</div>
 						<div class="col">
 							<div>التاريخ</div>
 							<div>
-								<q-input class="full-width" dense outlined />
+								<q-input
+									dense
+									outlined
+									v-model="invoiceForm.billDate"
+									mask="date"
+									:rules="['date']"
+								>
+									<template v-slot:append>
+										<q-icon color="primary" name="event" class="cursor-pointer">
+											<q-popup-proxy
+												cover
+												transition-show="scale"
+												transition-hide="scale"
+											>
+												<q-date v-model="invoiceForm.billDate">
+													<div class="row items-center justify-end">
+														<q-btn v-close-popup label="Close" color="primary" flat />
+													</div>
+												</q-date>
+											</q-popup-proxy>
+										</q-icon>
+									</template>
+								</q-input>
 							</div>
 						</div>
 						<div class="col">
 							<div>اسم المورد</div>
 							<div>
-								<q-input class="full-width" dense outlined />
+								<q-input v-model="invoiceForm.supplier" class="full-width" dense outlined />
 							</div>
 						</div>
 						<div class="col">
 							<div>ملاحظات</div>
 							<div>
-								<q-input class="full-width" dense outlined />
+								<q-input v-model="invoiceForm.notes" class="full-width" dense outlined />
 							</div>
 						</div>
 					</div>
@@ -150,6 +186,12 @@
 							</q-td>
 						</template>
 					</q-table>
+					<div class="q-pt-lg">
+						<q-btn dense outline color="primary" class="q-px-md" @click="mode = 'add'">
+							<svg-icon :src="AddIcon" remove-svg-padding size="20px" />
+							<span>إضافة جديد</span>
+						</q-btn>
+					</div>
 				</q-card-section>
 			</q-card>
 		</div>
@@ -174,17 +216,42 @@ const rowForm = () => ({
 	notes: '',
 })
 
+const invoiceForm = () => ({
+	supplier: '',
+	billNumber: '',
+	billDate: '',
+	notes: '',
+	items: [],
+})
+
 export default defineComponent({
 	name: 'invoices-list',
+	props: {
+		billNumber: String,
+	},
 	components: { SubHeader, SvgIcon },
 	data: () => ({
 		AddIcon,
 		FilterIcon,
-		mode: 'add',
+		mode: 'view',
 		form: rowForm(),
+		invoiceForm: invoiceForm(),
 	}),
+	async created() {
+		if (this.billNumber) {
+			let form = await this.getInvoice(this.billNumber)
+
+			if (form) this.invoiceForm = form
+			else this.$router.push('/')
+		} else {
+			this.invoiceForm.billNumber = await this.generateBillNumber()
+		}
+	},
 	computed: {
 		...mapGetters('Invoices', ['warehousesOptions', 'itemsOptions', 'unitsOptions', 'items']),
+		isEdit() {
+			return !!this.billNumber
+		},
 		columns() {
 			return [
 				{ name: 'delete', label: 'حذف', align: 'center' },
@@ -197,17 +264,31 @@ export default defineComponent({
 			]
 		},
 		rows() {
-			return [...this.items, { form: true }]
+			return [...this.invoiceForm.items, { form: this.mode == 'add' }].filter(
+				(item) => item.form !== false,
+			)
 		},
 	},
 	methods: {
-		...mapActions('Invoices', ['saveRow']),
+		...mapActions('Invoices', [
+			'generateBillNumber',
+			'saveRow',
+			'addInvoice',
+			'getInvoice',
+			'editInvoice',
+		]),
 		handleSaveRow() {
-			this.saveRow(this.form)
-      this.resetRowForm()
-		},
-		resetRowForm() {
+			this.invoiceForm.items.push(this.form)
 			this.form = rowForm()
+			this.mode = 'view'
+		},
+		async handleAddInvoice() {
+			if (this.isEdit) {
+				await this.editInvoice(this.invoiceForm)
+			} else {
+				await this.addInvoice(this.invoiceForm)
+			}
+			this.$router.push('/')
 		},
 	},
 })

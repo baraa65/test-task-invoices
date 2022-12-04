@@ -1,5 +1,5 @@
 <template>
-	<div style="background: white">
+	<div class="row items-center justify-between" style="background: white">
 		<div>{{ title }}</div>
 		<div>
 			<slot />

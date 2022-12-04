@@ -9,6 +9,8 @@
 						<div class="row" style="gap: 8px">
 							<q-btn dense outline color="primary" style="padding: 0 5px">
 								<q-img :src="FilterIcon" width="20px" />
+
+								<search-form @filter-change="setFilter($event)" />
 							</q-btn>
 							<q-btn
 								dense
@@ -24,11 +26,15 @@
 					</div>
 				</q-card-section>
 				<q-card-section>
-					<q-table :columns="columns" :rows="rows">
+					<q-table :columns="columns" :rows="invoices">
 						<template v-slot:bottom> <div></div> </template>
-						<template v-slot:body-cell-settings="props">
+						<template v-slot:body-cell-settings="{ row }">
 							<q-td align="center">
-								<div>test</div>
+								<div>
+									<q-btn round dense flat @click="$router.push(`/edit/${row.billNumber}`)">
+										<svg-icon :src="EditIcon" remove-svg-padding size="20px" />
+									</q-btn>
+								</div>
 							</q-td>
 						</template>
 					</q-table>
@@ -42,31 +48,33 @@
 import { defineComponent } from 'vue'
 import SubHeader from 'src/components/sub-header.vue'
 import AddIcon from 'src/assets/icons/add.svg'
+import EditIcon from 'src/assets/icons/edit.svg'
 import FilterIcon from 'src/assets/icons/filter.png'
 import SvgIcon from 'src/components/svg-icon.vue'
+import SearchForm from 'src/components/search-form.vue'
+import { mapActions, mapGetters } from 'vuex'
 
 export default defineComponent({
 	name: 'invoices-list',
-	components: { SubHeader, SvgIcon },
+	components: { SubHeader, SvgIcon, SearchForm },
 	data: () => ({
 		AddIcon,
+		EditIcon,
 		FilterIcon,
-		rows: [
-			{ supply: 'المورد', supplier: 'المورد', billNumber: 'SR 000001', billDate: '01-01-2022' },
-			{ supply: 'المورد', supplier: 'المورد', billNumber: 'SR 000001', billDate: '01-01-2022' },
-			{ supply: 'المورد', supplier: 'المورد', billNumber: 'SR 000001', billDate: '01-01-2022' },
-		],
 	}),
 	computed: {
+		...mapGetters('Invoices', ['invoices']),
 		columns() {
 			return [
-				{ name: 'supply', label: 'المورد', field: 'supply' },
 				{ name: 'supplier', label: 'المورد', field: 'supplier' },
 				{ name: 'billNumber', label: 'رقم الفاتورة', field: 'billNumber' },
 				{ name: 'billDate', label: 'تاريخ الفاتورة', field: 'billDate' },
 				{ name: 'settings', label: 'الاعدادات', align: 'center' },
 			]
 		},
+	},
+	methods: {
+		...mapActions('Invoices', ['setFilter']),
 	},
 })
 </script>

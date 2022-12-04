@@ -3,9 +3,14 @@ const routes = [
 		path: '/',
 		component: () => import('layouts/MainLayout.vue'),
 		children: [
-      { path: '', component: () => import('pages/invoices-list/index.vue') },
-      { path: '/create', component: () => import('pages/create-invoice/index.vue') },
-    ],
+			{ path: '', component: () => import('pages/invoices-list/index.vue') },
+			{ path: '/create', component: () => import('pages/create-invoice/index.vue') },
+			{
+				path: '/edit/:billNumber',
+				props: true,
+				component: () => import('pages/create-invoice/index.vue'),
+			},
+		],
 	},
 
 	// Always leave this as last one,
