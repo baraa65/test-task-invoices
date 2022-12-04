@@ -204,6 +204,7 @@ export default defineComponent({
 		...mapActions('Invoices', ['saveRow']),
 		handleSaveRow() {
 			this.saveRow(this.form)
+      this.resetRowForm()
 		},
 		resetRowForm() {
 			this.form = rowForm()
