@@ -235,7 +235,7 @@
 										<q-btn dense flat round icon="save" type="submit" />
 									</div>
 									<div v-else>
-										<q-btn dense flat round>
+										<q-btn dense flat round @click="deleteItem(row)">
 											<SvgIcon :src="DeleteIcon" size="24px" remove-svg-padding />
 										</q-btn>
 									</div>
@@ -245,13 +245,7 @@
 					</Form>
 
 					<div class="q-pt-lg">
-						<q-btn
-							class="btn"
-							dense
-							outline
-							color="primary"
-							@click="mode = 'add'"
-						>
+						<q-btn class="btn" dense outline color="primary" @click="mode = 'add'">
 							<svg-icon :src="AddIcon" remove-svg-padding size="24px" />
 							<span>إضافة صنف</span>
 						</q-btn>
@@ -391,6 +385,9 @@ export default defineComponent({
 			this.invoiceForm.items.push(this.form)
 			this.form = rowForm()
 			this.mode = 'view'
+		},
+		deleteItem(row) {
+			this.invoiceForm.items = this.invoiceForm.items.filter((item) => item != row)
 		},
 		async handleAddInvoice() {
 			if (this.isEdit) {
