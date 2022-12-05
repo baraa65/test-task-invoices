@@ -2,37 +2,37 @@
 	<div>
 		<sub-header title="أذون الإضافة" />
 
-		<div class="q-pa-xl">
-			<q-card flat>
-				<q-card-section>
-					<div class="row justify-end">
+		<div style="padding: 25px">
+			<q-card flat style="border-radius: 12px;">
+				<q-card-section style="padding: 24px">
+					<div class="row justify-end" style="padding-top: 10px">
 						<div class="row" style="gap: 8px">
-							<q-btn dense outline color="primary" style="padding: 0 5px">
+							<q-btn class="btn" dense outline color="primary" style="padding: 0 7px">
 								<q-img :src="FilterIcon" width="20px" />
 
 								<search-form @filter-change="setFilter($event)" />
 							</q-btn>
 							<q-btn
+                class="btn"
 								dense
 								outline
 								color="primary"
-								class="q-px-md"
 								@click="$router.push('/create')"
 							>
-								<svg-icon :src="AddIcon" remove-svg-padding size="20px" />
+								<svg-icon :src="AddIcon" remove-svg-padding size="24px" style="margin-left: 4px"/>
 								<span>إضافة جديد</span>
 							</q-btn>
 						</div>
 					</div>
 				</q-card-section>
 				<q-card-section>
-					<q-table :columns="columns" :rows="invoices">
+					<q-table flat :columns="columns" :rows="invoices">
 						<template v-slot:bottom> <div></div> </template>
 						<template v-slot:body-cell-settings="{ row }">
 							<q-td align="center">
 								<div>
-									<q-btn round dense flat @click="$router.push(`/edit/${row.billNumber}`)">
-										<svg-icon :src="EditIcon" remove-svg-padding size="20px" />
+									<q-btn class="btn" round dense flat @click="$router.push(`/edit/${row.billNumber}`)">
+										<svg-icon :src="EditIcon" remove-svg-padding size="24px" />
 									</q-btn>
 								</div>
 							</q-td>

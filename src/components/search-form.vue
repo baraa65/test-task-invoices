@@ -1,6 +1,6 @@
 <template>
 	<q-popup-proxy>
-		<q-card>
+		<q-card dir="rtl">
 			<q-card-section>
 				<div class="q-pb-sm">
 					<div class="q-pb-sm">
@@ -10,8 +10,8 @@
 					<div class="q-pb-sm">
 						<div class="q-pb-xs">تاريخ</div>
 						<div class="date-field">
-							<Field v-model="filter.billDate" name="validityDate" style="flex: 1" />
-							<q-icon color="primary" name="event" class="cursor-pointer">
+              <Field v-model="filter.billDate" name="validityDate" style="flex: 1" />
+							<q-icon color="primary" name="event" class="cursor-pointer" size="24px">
 								<q-popup-proxy cover transition-show="scale" transition-hide="scale">
 									<q-date v-model="filter.billDate" mask="DD-MM-YYYY">
 										<div class="row items-center justify-end">
@@ -26,21 +26,15 @@
 
 				<div class="row justify-start" style="gap: 8px">
 					<q-btn
+						unelevated
+						class="btn"
 						v-close-popup
 						label="تطبيق"
-						class="q-px-md"
 						dense
 						color="primary"
 						@click="handleApply()"
 					/>
-					<q-btn
-						v-close-popup
-						label="الغاء"
-						class="q-px-md"
-						dense
-						flat
-						@click="handleReset()"
-					/>
+					<q-btn class="btn" v-close-popup label="الغاء" dense flat @click="handleReset()" />
 				</div>
 			</q-card-section>
 		</q-card>

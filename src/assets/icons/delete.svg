@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_336" data-name="Group 336" transform="translate(-10701 588)">
+    <rect id="Rectangle_714" data-name="Rectangle 714" width="24" height="24" transform="translate(10701 -588)" fill="none"/>
+    <rect id="Rectangle_715" data-name="Rectangle 715" width="24" height="24" transform="translate(10701 -588)" fill="none"/>
+    <g id="Trash" transform="translate(10709 -581)">
+      <path id="Combo_shape" data-name="Combo shape" d="M4.354.717A1.611,1.611,0,0,1,5.695,0h1.5a1.611,1.611,0,0,1,1.34.717l.73,1.095h3.02a.6.6,0,0,1,0,1.208H.6a.6.6,0,0,1,0-1.208h3.02ZM8.86,16.108H4.027A3.222,3.222,0,0,1,.805,12.887V4.027H12.081v8.86A3.222,3.222,0,0,1,8.86,16.108ZM4.833,6.645a.6.6,0,0,1,.6.6v5.638a.6.6,0,0,1-1.208,0V7.249A.6.6,0,0,1,4.833,6.645Zm3.222,0a.6.6,0,0,1,.6.6v5.638a.6.6,0,0,1-1.208,0V7.249A.6.6,0,0,1,8.054,6.645Z" transform="translate(-2 -3)" fill="#28303f" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

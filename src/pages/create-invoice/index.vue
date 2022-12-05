@@ -3,20 +3,25 @@
 		<sub-header :title="isEdit ? 'تعديل الاذن' : 'إضافة جديد'">
 			<div>
 				<q-btn
+					class="btn"
+					unelevated
 					:label="isEdit ? 'تعديل' : 'إضافة'"
 					color="primary"
 					@click="$refs['form-btn'].click()"
+					style="padding: 5px 40px"
 				/>
 			</div>
 		</sub-header>
 
-		<div class="q-pa-xl">
-			<q-card flat>
-				<q-card-section>
-					<Form @submit="handleSubmit()" class="row" style="gap: 8px">
+		<div style="padding: 25px">
+			<q-card flat style="border-radius: 12px">
+				<q-card-section style="padding: 24px">
+					<Form @submit="handleSubmit()" class="row" style="gap: 8px; padding-top: 10px">
 						<button v-show="false" type="submit" ref="form-btn" />
 						<div class="col">
-							<div>رقم الاذن التسلسلي</div>
+							<div class="text-bold" style="padding-bottom: 8px; font-size: 14px">
+								رقم الاذن التسلسلي
+							</div>
 							<div>
 								<Field
 									v-model="invoiceForm.billNumber"
@@ -27,7 +32,9 @@
 							</div>
 						</div>
 						<div class="col">
-							<div>التاريخ</div>
+							<div class="text-bold" style="padding-bottom: 8px; font-size: 14px">
+								التاريخ
+							</div>
 							<div>
 								<div class="date-field">
 									<Field
@@ -36,7 +43,7 @@
 										style="flex: 1"
 										:rules="[isRequired]"
 									/>
-									<q-icon color="primary" name="event" class="cursor-pointer">
+									<q-icon color="primary" name="event" class="cursor-pointer" size="24px">
 										<q-popup-proxy cover transition-show="scale" transition-hide="scale">
 											<q-date v-model="billDateModel" mask="DD-MM-YYYY">
 												<div class="row items-center justify-end">
@@ -50,7 +57,9 @@
 							</div>
 						</div>
 						<div class="col">
-							<div>اسم المورد</div>
+							<div class="text-bold" style="padding-bottom: 8px; font-size: 14px">
+								اسم المورد
+							</div>
 							<div>
 								<Field
 									v-model="invoiceForm.supplier"
@@ -62,17 +71,19 @@
 							</div>
 						</div>
 						<div class="col">
-							<div>ملاحظات</div>
+							<div class="text-bold" style="padding-bottom: 8px; font-size: 14px">
+								ملاحظات
+							</div>
 							<div>
 								<Field v-model="invoiceForm.notes" class="full-width" name="notes" />
 							</div>
 						</div>
 					</Form>
 				</q-card-section>
-				<q-card-section>
-					<div>جدول الأصناف</div>
+				<q-card-section style="padding: 20px 24px">
+					<div class="subtitle text-bold" style="padding-bottom: 25px">جدول الأصناف</div>
 					<Form @submit="handleSaveRow()">
-						<q-table :columns="columns" :rows="rows">
+						<q-table flat :columns="columns" :rows="rows">
 							<template v-slot:bottom> <div></div> </template>
 							<template v-slot:body-cell-warehouse="{ row }">
 								<q-td>
@@ -83,7 +94,7 @@
 											as="select"
 											:rules="[isRequired]"
 											v-slot="{ value }"
-                      style="width: 150px"
+											style="width: 150px"
 										>
 											<option
 												v-for="w in warehousesOptions"
@@ -110,7 +121,7 @@
 											as="select"
 											:rules="[isRequired]"
 											v-slot="{ value }"
-                      style="width: 150px"
+											style="width: 150px"
 										>
 											<option
 												v-for="w in itemsOptions"
@@ -137,7 +148,7 @@
 											as="select"
 											:rules="[isRequired]"
 											v-slot="{ value }"
-                      style="width: 150px"
+											style="width: 150px"
 										>
 											<option
 												v-for="w in unitsOptions"
@@ -181,7 +192,12 @@
 												style="flex: 1"
 												:rules="[isRequired]"
 											/>
-											<q-icon color="primary" name="event" class="cursor-pointer">
+											<q-icon
+												color="primary"
+												name="event"
+												class="cursor-pointer"
+												size="24px"
+											>
 												<q-popup-proxy
 													cover
 													transition-show="scale"
@@ -216,10 +232,12 @@
 							<template v-slot:body-cell-delete="{ row }">
 								<q-td align="center">
 									<div v-if="row.form">
-										<q-btn flat round icon="save" type="submit" />
+										<q-btn dense flat round icon="save" type="submit" />
 									</div>
 									<div v-else>
-										<q-btn flat round icon="delete" />
+										<q-btn dense flat round>
+											<SvgIcon :src="DeleteIcon" size="24px" remove-svg-padding />
+										</q-btn>
 									</div>
 								</q-td>
 							</template>
@@ -227,9 +245,15 @@
 					</Form>
 
 					<div class="q-pt-lg">
-						<q-btn dense outline color="primary" class="q-px-md" @click="mode = 'add'">
-							<svg-icon :src="AddIcon" remove-svg-padding size="20px" />
-							<span>إضافة جديد</span>
+						<q-btn
+							class="btn"
+							dense
+							outline
+							color="primary"
+							@click="mode = 'add'"
+						>
+							<svg-icon :src="AddIcon" remove-svg-padding size="24px" />
+							<span>إضافة صنف</span>
 						</q-btn>
 					</div>
 				</q-card-section>
@@ -242,6 +266,7 @@
 import { defineComponent } from 'vue'
 import SubHeader from 'src/components/sub-header.vue'
 import AddIcon from 'src/assets/icons/add.svg'
+import DeleteIcon from 'src/assets/icons/delete.svg'
 import FilterIcon from 'src/assets/icons/filter.png'
 import SvgIcon from 'src/components/svg-icon.vue'
 import { mapGetters, mapActions } from 'vuex'
@@ -274,6 +299,7 @@ export default defineComponent({
 	components: { SubHeader, SvgIcon, Form, ErrorMessage, Field },
 	data: () => ({
 		AddIcon,
+		DeleteIcon,
 		FilterIcon,
 		mode: 'view',
 		form: rowForm(),
@@ -342,7 +368,7 @@ export default defineComponent({
 				{ name: 'unit', label: 'الوحدة', field: 'unit' },
 				{ name: 'qty', label: 'الكمية', field: 'qty' },
 				{ name: 'validity-date', label: 'تاريخ الصلاحية' },
-				{ name: 'notes', label: 'الملاحظات', field: 'notes' },
+				{ name: 'notes', label: 'ملاحظات', field: 'notes' },
 			]
 		},
 		rows() {
