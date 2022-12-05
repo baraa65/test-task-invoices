@@ -241,6 +241,10 @@
 									</div>
 								</q-td>
 							</template>
+
+							<template v-slot:no-data>
+								<div class="text-center q-py-md full-width" style="font-size: 14px">لا توجد بيانات</div>
+							</template>
 						</q-table>
 					</Form>
 
@@ -310,7 +314,7 @@ export default defineComponent({
 		}
 	},
 	computed: {
-		...mapGetters('Invoices', ['warehousesOptions', 'itemsOptions', 'unitsOptions', 'items']),
+		...mapGetters('Invoices', ['warehousesOptions', 'itemsOptions', 'unitsOptions']),
 		isEdit() {
 			return !!this.billNumber
 		},

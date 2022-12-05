@@ -17,56 +17,12 @@ export default {
 			{ id: 2, name: 'unit 2' },
 			{ id: 3, name: 'unit 3' },
 		],
-		invoices: [
-			{
-				supplier: 'المورد',
-				billNumber: 'SR 000001',
-				billDate: new Date().toISOString(),
-				notes: 'asxasxa sax x',
-				items: [
-					{
-						warehouse: { id: 1, name: 'مخزن' },
-						item: { id: 1, name: 'item' },
-						unit: { id: 1, name: 'unit' },
-						qty: 100,
-						validityDate: new Date().toISOString(),
-						notes: 'notes',
-					},
-					{
-						warehouse: { id: 1, name: 'مخزن' },
-						item: { id: 1, name: 'item' },
-						unit: { id: 1, name: 'unit' },
-						qty: 100,
-						validityDate: new Date().toISOString(),
-						notes: 'axsxaaxas',
-					},
-				],
-			},
-		],
-		items: [
-			{
-				warehouse: { id: 1, name: 'مخزن' },
-				item: { id: 1, name: 'item' },
-				unit: { id: 1, name: 'unit' },
-				qty: 100,
-				validityDate: new Date().toISOString(),
-				notes: 'notes',
-			},
-			{
-				warehouse: { id: 1, name: 'مخزن' },
-				item: { id: 1, name: 'item' },
-				unit: { id: 1, name: 'unit' },
-				qty: 100,
-				validityDate: new Date().toISOString(),
-				notes: 'axsxaaxas',
-			},
-		],
+		invoices: [],
 	},
 	getters: {
 		warehousesOptions: (state) => state.warehousesOptions,
 		itemsOptions: (state) => state.itemsOptions,
 		unitsOptions: (state) => state.unitsOptions,
-		items: (state) => state.items,
 		invoices: (state) =>
 			state.invoices.filter((invoice) => {
 				const { billNumber, billDate } = state.filter
@@ -80,9 +36,6 @@ export default {
 	mutations: {
 		setFilter(state, val) {
 			state.filter = { ...val }
-		},
-		addRow(state, val) {
-			state.items.push(val)
 		},
 		addInvoice(state, val) {
 			state.invoices.push(val)

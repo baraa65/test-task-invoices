@@ -3,7 +3,7 @@
 		<sub-header title="أذون الإضافة" />
 
 		<div style="padding: 25px">
-			<q-card flat style="border-radius: 12px;">
+			<q-card flat style="border-radius: 12px">
 				<q-card-section style="padding: 24px">
 					<div class="row justify-end" style="padding-top: 10px">
 						<div class="row" style="gap: 8px">
@@ -13,13 +13,18 @@
 								<search-form @filter-change="setFilter($event)" />
 							</q-btn>
 							<q-btn
-                class="btn"
+								class="btn"
 								dense
 								outline
 								color="primary"
 								@click="$router.push('/create')"
 							>
-								<svg-icon :src="AddIcon" remove-svg-padding size="24px" style="margin-left: 4px"/>
+								<svg-icon
+									:src="AddIcon"
+									remove-svg-padding
+									size="24px"
+									style="margin-left: 4px"
+								/>
 								<span>إضافة جديد</span>
 							</q-btn>
 						</div>
@@ -31,11 +36,22 @@
 						<template v-slot:body-cell-settings="{ row }">
 							<q-td align="center">
 								<div>
-									<q-btn class="btn" round dense flat @click="$router.push(`/edit/${row.billNumber}`)">
+									<q-btn
+										class="btn"
+										round
+										dense
+										flat
+										@click="$router.push(`/edit/${row.billNumber}`)"
+									>
 										<svg-icon :src="EditIcon" remove-svg-padding size="24px" />
 									</q-btn>
 								</div>
 							</q-td>
+						</template>
+						<template v-slot:no-data>
+							<div class="text-center q-py-md full-width" style="font-size: 14px">
+								لا توجد بيانات
+							</div>
 						</template>
 					</q-table>
 				</q-card-section>
